@@ -1,5 +1,5 @@
 def main():
-    print("Hello from ynab-notifier!")
+    print("Hello from ynab-notifier-backend!")
 
 
 if __name__ == "__main__":
