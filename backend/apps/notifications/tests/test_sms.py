@@ -20,10 +20,10 @@ def test_format_message(category_grocery, category_dining_out, category_shopping
         f"Daily Budget Update ({today}):\n"
         "\n"
         "Groceries:   $252.50 remaining\n"
-        "Gas:          $89.00 remaining\n"
-        "Dining Out:   $62.30 remaining\n"
-        "─────────────────────\n"
-        "Total:       $403.80 remaining\n"
+        "Dining Out:  $111.00 remaining\n"
+        "Shopping:     $62.30 remaining\n"
+        "──────────────────────────────\n"
+        "Total:       $425.80 remaining\n"
     )
 
     assert result == expected 
