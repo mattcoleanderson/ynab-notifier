@@ -19,5 +19,6 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')), # Browseable API for submitting authenticated requests
     path('v1/', include('apps.notifications.urls')),
 ]
