@@ -22,17 +22,25 @@ def get_ynab_categories(request):
 def send_test_notification(request):
     # client = YNABClient(access_token=settings.YNAB_TOKEN, budget_id=settings.BUDGET_ID)
 
+    # TODO: create a configuration map that can dynamically provide the correct
+    # django settings for each NotificationService
     sms = SMSService(
         settings.TWILIO_ACCOUNT_SID,
         settings.TWILIO_AUTH_TOKEN,
         settings.TWILIO_FROM_NUMBER,
     )
 
-    isSent = sms.send_message(settings.TWILIO_TO_NUMBER, "Hello, World!")
+    isSent = sms.send(settings.TWILIO_TO_NUMBER, "Hello, World!")
 
     if not isSent:
         return Response(
             {"error": "Failed to send SMS"}, status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
-    return Response({"message": "Notification sent", "to": settings.TWILIO_TO_NUMBER, "from": settings.TWILIO_FROM_NUMBER})
+    return Response(
+        {
+            "message": "Notification sent",
+            "to": settings.TWILIO_TO_NUMBER,
+            "from": settings.TWILIO_FROM_NUMBER,
+        }
+    )
