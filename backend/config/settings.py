@@ -23,17 +23,17 @@ environ.Env.read_env(BASE_DIR / '.env') # read from .env
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env.str('SECRET_KEY')
 DEBUG = env.bool('DEBUG', default=False)
 
-YNAB_TOKEN = env('YNAB_TOKEN')
-BUDGET_ID = env('BUDGET_ID')
+YNAB_TOKEN = env.str('YNAB_TOKEN')
+BUDGET_ID = env.str('BUDGET_ID')
 CATEGORY_IDS = env.list('CATEGORY_IDS')
 
-TWILIO_ACCOUNT_SID = env('TWILIO_ACCOUNT_SID')
-TWILIO_AUTH_TOKEN = env('TWILIO_AUTH_TOKEN')
-TWILIO_FROM_NUMBER = env('TWILIO_FROM_NUMBER')
-TWILIO_TO_NUMBER = env('TWILIO_TO_NUMBER')
+TWILIO_ACCOUNT_SID = env.str('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = env.str('TWILIO_AUTH_TOKEN')
+TWILIO_FROM_NUMBER = env.str('TWILIO_FROM_NUMBER')
+TWILIO_TO_NUMBER = env.str('TWILIO_TO_NUMBER')
 
 ALLOWED_HOSTS = []
 
