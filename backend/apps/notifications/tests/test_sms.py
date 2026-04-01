@@ -5,7 +5,7 @@ from twilio.base.exceptions import TwilioRestException
 from apps.notifications.services.sms import SMSService
 
 
-def test_send_message_returns_true_on_success(mocker: MockerFixture):
+def test_send_returns_true_on_success(mocker: MockerFixture):
     phone_num = "5019529943"
     message = "Hello, World!"
 
@@ -17,12 +17,12 @@ def test_send_message_returns_true_on_success(mocker: MockerFixture):
 
     mocker.patch("apps.notifications.services.sms.Client")
 
-    result = smsService.send_message(phone_num, message)
+    result = smsService.send(phone_num, message)
 
     assert result == True
 
 
-def test_send_message_returns_false_on_failure(mocker: MockFixture):
+def test_send_returns_false_on_failure(mocker: MockFixture):
     phone_num = ""
     message = "Hello, World!"
 
@@ -37,7 +37,7 @@ def test_send_message_returns_false_on_failure(mocker: MockFixture):
         400, "uri"
     )
 
-    result = smsService.send_message(phone_num, message)
+    result = smsService.send(phone_num, message)
 
     assert result == False
 
@@ -54,13 +54,13 @@ def test_format_message(category_grocery, category_dining_out, category_shopping
 
     today = date.today().strftime("%a, %b %d")
     expected = (
-        f"Daily Budget Update ({today}):\n"
+        f"Budget Left ({today}):\n"
         "\n"
-        "Groceries:   $252.50 remaining\n"
-        "Dining Out:  $111.00 remaining\n"
-        "Shopping:    $ 62.30 remaining\n"
-        "──────────────────────────────\n"
-        "Total:       $425.80 remaining"
+        "Groceries:   $252.50\n"
+        "Dining Out:  $111.00\n"
+        "Shopping:    $ 62.30\n"
+        "─────────────────────\n"
+        "Total:        $425.80"
     )
 
     assert result == expected
