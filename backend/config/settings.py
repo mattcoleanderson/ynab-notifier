@@ -37,7 +37,7 @@ TWILIO_TO_NUMBER = env.str('TWILIO_TO_NUMBER')
 
 DISCORD_WEBHOOK_URL = env.str('DISCORD_WEBHOOK_URL')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 
 # Application definition
