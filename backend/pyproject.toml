@@ -11,6 +11,7 @@ dependencies = [
     "django-environ>=0.13.0",
     "djangorestframework>=3.16.1",
     "grapheme>=0.6.0",
+    "gunicorn>=25.3.0",
     "twilio>=9.10.2",
     "ynab>=1.9.0",
 ]
