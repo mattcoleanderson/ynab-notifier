@@ -131,12 +131,14 @@ STATIC_URL = 'static/'
 
 # Celery
 CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', default='redis://localhost:6379/0')
-CELERY_TIMEZONE = 'America/Chicago'
+CELERY_TIMEZONE = env.str('CELERY_TIMEZONE', default='America/Chicago')
+NOTIFICATION_HOUR = env.int('NOTIFICATION_HOUR', default=8)
+NOTIFICATION_MINUTE = env.int('NOTIFICATION_MINUTE', default=0)
 
 from celery.schedules import crontab
 CELERY_BEAT_SCHEDULE = {
     'send-daily-notification': {
         'task': 'apps.notifications.task.send_daily_notification',
-        'schedule': crontab(hour=8, minute=0),
+        'schedule': crontab(hour=NOTIFICATION_HOUR, minute=NOTIFICATION_MINUTE),
     },
 }
