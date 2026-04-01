@@ -128,3 +128,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Celery
+CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', default='redis://localhost:6379/0')
+CELERY_TIMEZONE = 'America/Chicago'
+
+from celery.schedules import crontab
+CELERY_BEAT_SCHEDULE = {
+    'send-daily-notification': {
+        'task': 'apps.notifications.task.send_daily_notification',
+        'schedule': crontab(hour=8, minute=0),
+    },
+}
