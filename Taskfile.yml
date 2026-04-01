@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+tasks:
+
+  # Backend tasks
+  backend-manage:
+    desc: Run Django Admin command
+    dir: backend
+    cmd: uv run python manage.py {{.CLI_ARGS}}
+
+  backend-runserver:
+    desc: Run the Backend Server
+    dir: backend
+    cmd: uv run python manage.py runserver
+
+  backend-migrate:
+    dir: backend
+    cmd: uv run python manage.py migrate
+
+  backend-makemigrations:
+    dir: backend
+    cmd: uv run python manage.py makemigrations
