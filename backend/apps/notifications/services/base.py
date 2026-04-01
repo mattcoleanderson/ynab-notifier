@@ -22,7 +22,7 @@ class NotificationService(ABC):
 
     def format_message(self, categories: List[Category]) -> str:
         today = date.today().strftime("%a, %b %d")  # ex. Mon, Feb 14
-        message = f"Daily Budget Update ({today}):\n\n"
+        message = f"Budget Left ({today}):\n\n"
 
         # goal_target is treated as 0 if there is no goal set.
         # this means that if there is any activity on this category
@@ -33,16 +33,16 @@ class NotificationService(ABC):
         max_name_len = max(
             max(grapheme.length(c.name) for c in categories), len("Total")
         )
-        max_amount_len = max(len(f"{a:.2f}") for a in amounts + [total])
+        max_amount_len = max(len(f"{a:,.2f}") for a in amounts + [total])
 
         # Loop through cateogries and add them as a line in message
         for i in range(len(categories)):
             name = visual_ljust(f"{categories[i].name}:", max_name_len + 2)
-            message += f"{name} ${amounts[i]:>{max_amount_len}.2f} remaining\n"
+            message += f"{name} ${amounts[i]:>{max_amount_len},.2f}\n"
 
-        message += "─" * (max_name_len + max_amount_len + 14) + "\n"
+        message += "─" * (max_name_len + max_amount_len + 5) + "\n"
         name = visual_ljust("Total:", max_name_len + 3)
-        message += f"{name} ${total:>{max_amount_len}.2f} remaining"
+        message += f"{name} ${total:>{max_amount_len},.2f}"
 
         print(message)
 
