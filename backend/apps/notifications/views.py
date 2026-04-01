@@ -20,9 +20,15 @@ def get_ynab_categories(request):
 
 @api_view(["GET"])
 def send_test_notification(request):
-    discord = DiscordService(webhook_url=settings.DISCORD_WEBHOOK_URL)
+    client = YNABClient(access_token=settings.YNAB_TOKEN, budget_id=settings.BUDGET_ID)
+    categories = client.get_categories_by_id(settings.CATEGORY_IDS)
 
-    sent = discord.send("", "Hello, World!")
+    if categories is None:
+        return Response({"error": "Categories not found"}, status.HTTP_404_NOT_FOUND)
+
+    discord = DiscordService(webhook_url=settings.DISCORD_WEBHOOK_URL)
+    message = discord.format_message(categories)
+    sent = discord.send("", message)
 
     if not sent:
         return Response(
