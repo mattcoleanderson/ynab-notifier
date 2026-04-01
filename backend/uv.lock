@@ -512,6 +512,12 @@ wheels = [
 ]
 
 [[package]]
+name = "grapheme"
+version = "0.6.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ce/e7/bbaab0d2a33e07c8278910c1d0d8d4f3781293dfbc70b5c38197159046bf/grapheme-0.6.0.tar.gz", hash = "sha256:44c2b9f21bbe77cfb05835fec230bd435954275267fea1858013b102f8603cca", size = 207306, upload-time = "2020-03-07T17:13:55.492Z" }
+
+[[package]]
 name = "idna"
 version = "3.11"
 source = { registry = "https://pypi.org/simple" }
@@ -1139,6 +1145,7 @@ dependencies = [
     { name = "django-cors-headers" },
     { name = "django-environ" },
     { name = "djangorestframework" },
+    { name = "grapheme" },
     { name = "twilio" },
     { name = "ynab" },
 ]
@@ -1161,6 +1168,7 @@ requires-dist = [
     { name = "django-cors-headers", specifier = ">=4.9.0" },
     { name = "django-environ", specifier = ">=0.13.0" },
     { name = "djangorestframework", specifier = ">=3.16.1" },
+    { name = "grapheme", specifier = ">=0.6.0" },
     { name = "twilio", specifier = ">=9.10.2" },
     { name = "ynab", specifier = ">=1.9.0" },
 ]

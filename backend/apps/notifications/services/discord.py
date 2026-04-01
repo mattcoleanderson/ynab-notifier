@@ -12,6 +12,9 @@ class DiscordService(NotificationService):
     def __init__(self, webhook_url: str) -> None:
         self.webhook_url = webhook_url
 
+    # TODO: Emojis render as 2 columns in Discord code blocks but grapheme.length
+    # counts them as 1. The Total line padding currently assumes emojis are present,
+    # so alignment breaks for users without emojis in their category names.
     def format_message(self, categories: List[Category]) -> str:
         message = super().format_message(categories)
         return f"```\n{message}\n```"
