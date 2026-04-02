@@ -3,13 +3,14 @@ name: Build and Push Docker Image
 on:
   push:
     branches: [main]
+    tags: ['v*']
     paths:
       - backend/**
       - .github/workflows/build-image.yml
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   packages: write
 
 jobs:
@@ -26,13 +27,27 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
+      - name: Determine image tags
+        id: tags
+        run: |
+          TAGS="ghcr.io/${{ github.repository }}:${{ github.sha }}"
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            TAGS="${TAGS},ghcr.io/${{ github.repository }}:${{ github.ref_name }}"
+            TAGS="${TAGS},ghcr.io/${{ github.repository }}:latest"
+          fi
+          echo "tags=${TAGS}" >> "$GITHUB_OUTPUT"
+
       - uses: docker/build-push-action@v6
         with:
           context: backend
           push: true
           platforms: linux/arm64
-          tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ github.sha }}
+          tags: ${{ steps.tags.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Create GitHub Release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
