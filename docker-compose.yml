@@ -15,7 +15,7 @@ services:
   celery-worker:
     image: ghcr.io/mattcoleanderson/ynab-notifier:latest
     restart: unless-stopped
-    command: uv run celery -A config worker --loglevel=info
+    command: /app/.venv/bin/celery -A config worker --loglevel=info
     env_file: .env
     depends_on:
       - redis
@@ -23,7 +23,7 @@ services:
   celery-beat:
     image: ghcr.io/mattcoleanderson/ynab-notifier:latest
     restart: unless-stopped
-    command: uv run celery -A config beat --loglevel=info
+    command: /app/.venv/bin/celery -A config beat --loglevel=info
     env_file: .env
     depends_on:
       - redis
