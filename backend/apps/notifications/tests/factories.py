@@ -12,6 +12,7 @@ def make_category(**overrides):
         "activity": 0,
         "balance": 0,
         "goal_target": None,
+        "goal_snoozed_at": None,
     }
 
     defaults.update(overrides)
