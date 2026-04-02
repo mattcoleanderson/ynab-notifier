@@ -139,7 +139,7 @@ NOTIFICATION_MINUTE = env.int('NOTIFICATION_MINUTE', default=0)
 from celery.schedules import crontab
 CELERY_BEAT_SCHEDULE = {
     'send-daily-notification': {
-        'task': 'apps.notifications.task.send_daily_notification',
+        'task': 'apps.notifications.tasks.send_daily_notification',
         'schedule': crontab(hour=NOTIFICATION_HOUR, minute=NOTIFICATION_MINUTE),
     },
 }
