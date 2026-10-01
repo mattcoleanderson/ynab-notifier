@@ -45,44 +45,69 @@ class NotificationService(ABC):
         Column widths are computed across all categories so alignment is
         consistent between sections.
         """
-        today = date.today().strftime("%a, %b %d")  # ex. Mon, Feb 14
-        message = f"Budget Left ({today}):\n\n"
-
         # Remaining per category depends on snoozed/budgeted state (see calculate_remaining)
         amounts = [calculate_remaining(c) for c in categories]
         total = sum(amounts)
 
-        # Split into positive/overspent so negatives appear below a separator
-        positive = [(c, a) for c, a in zip(categories, amounts) if a >= 0]
-        overspent = [(c, a) for c, a in zip(categories, amounts) if a < 0]
-
-        # Alignment widths computed across ALL categories so columns line up
-        # between sections. Uses grapheme length for emoji-aware padding.
-        max_name_len = max(
-            max(grapheme.length(c.name) for c in categories), len("Total")
-        )
-        max_amount_len = max(len(f"{a:,.2f}") for a in amounts + [total])
-
-        separator = "─" * (max_name_len + max_amount_len + 5) + "\n"
-
-        # Positive section (may be empty if all categories are overspent)
-        for c, a in positive:
-            name = visual_ljust(f"{c.name}:", max_name_len + 2)
-            message += f"{name} ${a:>{max_amount_len},.2f}\n"
-
-        message += separator
-
-        # Overspent section, outlined by separators
-        if overspent:
-            for c, a in overspent:
-                name = visual_ljust(f"{c.name}:", max_name_len + 2)
-                message += f"{name} ${a:>{max_amount_len},.2f}\n"
-            message += separator
-
-        # Total is the true sum including negatives (not clamped)
-        name = visual_ljust("Total:", max_name_len + 3)
-        message += f"{name} ${total:>{max_amount_len},.2f}"
+        # Build message
+        today = date.today().strftime("%a, %b %d")  # ex. Mon, Feb 14
+        message = f"${total:,.2f} remaining | {today} "
 
         print(message)
 
         return message
+
+    # TODO: Commented out because right now we wanta simpler message
+    # but this logic is really nice so I'd like to find a better way to keep
+    # it for possible future use
+
+    # def format_message(self, categories: List[Category]) -> str:
+    #     """Build a fixed-width budget summary with aligned columns.
+    #
+    #     Categories are split into two sections separated by a horizontal rule:
+    #     positive (>= $0) on top, overspent (< $0) below. If there are no
+    #     overspent categories, only one separator appears before the total.
+    #     Column widths are computed across all categories so alignment is
+    #     consistent between sections.
+    #     """
+    #     today = date.today().strftime("%a, %b %d")  # ex. Mon, Feb 14
+    #     message = f"Budget Left ({today}):\n\n"
+    #
+    #     # Remaining per category depends on snoozed/budgeted state (see calculate_remaining)
+    #     amounts = [calculate_remaining(c) for c in categories]
+    #     total = sum(amounts)
+    #
+    #     # Split into positive/overspent so negatives appear below a separator
+    #     positive = [(c, a) for c, a in zip(categories, amounts) if a >= 0]
+    #     overspent = [(c, a) for c, a in zip(categories, amounts) if a < 0]
+    #
+    #     # Alignment widths computed across ALL categories so columns line up
+    #     # between sections. Uses grapheme length for emoji-aware padding.
+    #     max_name_len = max(
+    #         max(grapheme.length(c.name) for c in categories), len("Total")
+    #     )
+    #     max_amount_len = max(len(f"{a:,.2f}") for a in amounts + [total])
+    #
+    #     separator = "─" * (max_name_len + max_amount_len + 5) + "\n"
+    #
+    #     # Positive section (may be empty if all categories are overspent)
+    #     for c, a in positive:
+    #         name = visual_ljust(f"{c.name}:", max_name_len + 2)
+    #         message += f"{name} ${a:>{max_amount_len},.2f}\n"
+    #
+    #     message += separator
+    #
+    #     # Overspent section, outlined by separators
+    #     if overspent:
+    #         for c, a in overspent:
+    #             name = visual_ljust(f"{c.name}:", max_name_len + 2)
+    #             message += f"{name} ${a:>{max_amount_len},.2f}\n"
+    #         message += separator
+    #
+    #     # Total is the true sum including negatives (not clamped)
+    #     name = visual_ljust("Total:", max_name_len + 3)
+    #     message += f"{name} ${total:>{max_amount_len},.2f}"
+    #
+    #     print(message)
+    #
+    #     return message
