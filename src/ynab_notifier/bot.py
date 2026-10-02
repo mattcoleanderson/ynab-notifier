@@ -1,30 +1,28 @@
 import discord
+from discord.ext import commands
 
 from ynab_notifier.config import Config
+
+class HelloBot(commands.Bot):
+    def __init__(self) -> None:
+        super().__init__(
+            command_prefix=commands.when_mentioned,
+            intents=discord.Intents.default(),
+            help_command=None,
+        )
+
+    async def setup_hook(self) -> None:
+        await self.tree.sync()
 
 
 def main() -> None:
     config = Config.from_env()
 
 
-    # bot permissions
-    intents = discord.Intents.default()
-    intents.message_content = True
+    bot = HelloBot()
 
-    client = discord.Client(intents=intents)
+    @bot.tree.command(name='hello', description='Say hello')
+    async def hello(interaction: discord.Interaction) -> None:
+        await interaction.response.send_message('Hello, world!')
 
-    @client.event
-    async def on_ready():
-        print(f'We have logged in as {client.user}')
-
-    @client.event
-    async def on_message(message):
-        # Ignore messages from the bot itself
-        if message.author == client.user:
-            return
-
-        if message.content.startswith('$hello'):
-            await message.channel.send('Hello!')
-
-
-    client.run(config.discord_token)
+    bot.run(config.discord_token)
