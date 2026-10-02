@@ -1,0 +1,17 @@
+[project]
+name = "ynab-notifier"
+version = "1.0.0"
+description = "A discord bot the notifies you daily of speicfied category amounts in your YNAB budget"
+authors = [
+    { name = "Matt Cole Anderson", email = "github@mattcoleanderson.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "discord-py>=2.7,<3",
+    "grapheme>=0.6,<1",
+    "ynab>=4.4,<5",
+]
+
+[build-system]
+requires = ["uv_build>=0.10.4,<0.11.0"]
+build-backend = "uv_build"
