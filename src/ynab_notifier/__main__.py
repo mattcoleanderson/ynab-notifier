@@ -1,4 +1,4 @@
-from ynab_notifier.bot import main
+from ynab_notifier.main import main
 
 if __name__ == '__main__':
     main()
