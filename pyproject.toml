@@ -12,8 +12,9 @@ dependencies = [
     "ynab>=4.4,<5",
 ]
 
+[project.scripts]
+ynab-notifier = "ynab_notifier.main:main"
+
 [build-system]
 requires = ["uv_build>=0.10.4,<0.11.0"]
 build-backend = "uv_build"
-[scripts]
-ynab-notifier = "ynab_notifier.main:main"
